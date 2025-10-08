@@ -1,0 +1,81 @@
+mysql> show databases
+    -> show databases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'show databases' at line 2
+mysql> Show databases;
++--------------------+
+| Database           |
++--------------------+
+| iit                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> notee
+mysql> Show databases;
++--------------------+
+| Database           |
++--------------------+
+| iit                |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> create database IIT14THBATCH;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> Show databases;
++--------------------+
+| Database           |
++--------------------+
+| iit                |
+| iit14thbatch       |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> USE IIT14THBATCH
+Database changed
+mysql> CREATE TABLE STUDENT(SUDENT_ID INT,STUDENT_NAME VARCHAR(30),SESSION VARCHAR(10),CGPA FLOAT(5,2),GENDER VARCHAR(7), MOBILEPHONE VARCHAR(15),EMAIL VARCHAR(100),DOB DATE);
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> SHOW TABLE STUDENT
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'STUDENT' at line 1
+mysql> SHOW STUDENT
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'STUDENT' at line 1
+mysql> SHOW TABLE STUDENT
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'STUDENT' at line 1
+mysql> SHOW TABLES;
++------------------------+
+| Tables_in_iit14thbatch |
++------------------------+
+| student                |
++------------------------+
+1 row in set (0.01 sec)
+
+mysql> . MODE BOX
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '. MODE BOX' at line 1
+mysql> .mode box;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.mode box' at line 1
+mysql> .mode box
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.mode box' at line 1
+mysql> Terminal close -- exit!
