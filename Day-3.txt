@@ -1,0 +1,379 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| iit                |
+| iit14thbatch       |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> CREATE TABLE USERS(
+    -> 	user_id int primary key
+    -> name varchar(100)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'name varchar(100)
+)' at line 3
+mysql> CREATE TABLE USERS(
+    -> 	user_id int primary key,
+    -> name varchar(100)
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> use iit14thbatch
+Database changed
+mysql>  CREATE TABLE USERS(
+    ->     ->  user_id int primary key,
+    ->     -> name varchar(100)
+    ->     -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '->  user_id int primary key,
+    -> name varchar(100)
+    -> )' at line 2
+mysql>  CREATE TABLE USERS(
+    -> user_id INT PRIMARY KEY,
+    -> name VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DESC USER;
+ERROR 1146 (42S02): Table 'iit14thbatch.user' doesn't exist
+mysql> DESC USERS;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| user_id | int          | NO   | PRI | NULL    |       |
+| name    | varchar(100) | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO USERS(user_id,name) values(1,'Hamim');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO USERS(user_id,name) values(2,'Demo');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from users;
++---------+-------+
+| user_id | name  |
++---------+-------+
+|       1 | Hamim |
+|       2 | Demo  |
++---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO USERS(user_id,name) values(3,'Gay');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from users;
++---------+-------+
+| user_id | name  |
++---------+-------+
+|       1 | Hamim |
+|       2 | Demo  |
+|       3 | Gay   |
++---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> delete from users where id = 3;
+ERROR 1054 (42S22): Unknown column 'id' in 'where clause'
+mysql> delete from users where id(3);
+ERROR 1305 (42000): FUNCTION iit14thbatch.id does not exist
+mysql> delete from users where user_id = 3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from users;
++---------+-------+
+| user_id | name  |
++---------+-------+
+|       1 | Hamim |
+|       2 | Demo  |
++---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO USERS(user_id,name) values(3,'Gay Mahi');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from users;
++---------+----------+
+| user_id | name     |
++---------+----------+
+|       1 | Hamim    |
+|       2 | Demo     |
+|       3 | Gay Mahi |
++---------+----------+
+3 rows in set (0.00 sec)
+
+mysql>  CREATE TABLE orders(
+    -> order_id int primary key,
+    -> user_id int,
+    -> product_name varchar(50)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc orders;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| order_id     | int         | NO   | PRI | NULL    |       |
+| user_id      | int         | YES  |     | NULL    |       |
+| product_name | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> drop table orders;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>  CREATE TABLE orders(
+    -> order_id int primary key,
+    -> user_id int,
+    -> product_name varchar(50),
+    -> foreign key(user_id) refrences users(user_id)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'refrences users(user_id)
+)' at line 5
+mysql>  CREATE TABLE orders(
+    -> order_id int primary key,
+    -> user_id int,
+    -> product_name varchar(50),
+    -> foreign key(user_id) references users(user_id)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc orders;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| order_id     | int         | NO   | PRI | NULL    |       |
+| user_id      | int         | YES  | MUL | NULL    |       |
+| product_name | varchar(50) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into orders(order_id,user_id,product_name) values(1,1,'am');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from orders;
++----------+---------+--------------+
+| order_id | user_id | product_name |
++----------+---------+--------------+
+|        1 |       1 | am           |
++----------+---------+--------------+
+1 row in set (0.00 sec)
+
+mysql> insert into orders(order_id,user_id,product_name) values(4,2,'pizza');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from orders;
++----------+---------+--------------+
+| order_id | user_id | product_name |
++----------+---------+--------------+
+|        1 |       1 | am           |
+|        4 |       2 | pizza        |
++----------+---------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into orders(order_id,user_id,product_name) values(2,3,'Burger');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from orders;
++----------+---------+--------------+
+| order_id | user_id | product_name |
++----------+---------+--------------+
+|        1 |       1 | am           |
+|        2 |       3 | Burger       |
+|        4 |       2 | pizza        |
++----------+---------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into orders(order_id,user_id,product_name) values(4,4,'pizza');
+ERROR 1062 (23000): Duplicate entry '4' for key 'orders.PRIMARY'
+mysql> insert into orders(order_id,user_id,product_name) values(3,4,'pizza');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`iit14thbatch`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`))
+mysql> CREATER TABLE PLAYERS(
+    -> player_id int primary key,
+    -> player_name varchar(50),
+    -> position varchar(10)
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'CREATER TABLE PLAYERS(
+player_id int primary key,
+player_name varchar(50),
+posit' at line 1
+mysql> CREATE TABLE players (
+    ->     player_id INT PRIMARY KEY,
+    ->     player_name VARCHAR(50),
+    ->     position VARCHAR(10)
+    -> );
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> CREATE TABLE transfer (
+    -> transfer_id INT PRIMARY KEY,
+    -> player id INT,
+    -> fromtowhere varchar(100)
+    -> ^C
+mysql> CREATE TABLE transfer (
+    -> transfer_id INT PRIMARY KEY,
+    -> player_id INT,
+    -> fromtowhere varchar(100),
+    -> CONSTRAINT fk_transfer_player foreign key(player_id) references players(player_id)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into players(player_id,player_name,position) values(1,'Neymar','amf');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into players(player_id,player_name,position) values(2,'Kroos','cmf');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into players(player_id,player_name,position) values(3,'Mbappe','cf');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from players;
++-----------+-------------+----------+
+| player_id | player_name | position |
++-----------+-------------+----------+
+|         1 | Neymar      | amf      |
+|         2 | Kroos       | cmf      |
+|         3 | Mbappe      | cf       |
++-----------+-------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into playersplayer_id,player_name,position) values(3,'Mbappe','cf');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',player_name,position) values(3,'Mbappe','cf')' at line 1
+mysql> insert into transfer(transfer_id,player_id,fromtowhere) values(1,1,'from Santos to Miami');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into transfer(transfer_id,player_id,fromtowhere) values(2,3,'from Psg to Real Madrid');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into transfer(transfer_id,player_id,fromtowhere) values(3,5,'from Psg to Real Madrid');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`iit14thbatch`.`transfer`, CONSTRAINT `fk_transfer_player` FOREIGN KEY (`player_id`) REFERENCES `players` (`player_id`))
+mysql> select * from transfer;
++-------------+-----------+-------------------------+
+| transfer_id | player_id | fromtowhere             |
++-------------+-----------+-------------------------+
+|           1 |         1 | from Santos to Miami    |
+|           2 |         3 | from Psg to Real Madrid |
++-------------+-----------+-------------------------+
+2 rows in set (0.00 sec)
+
+mysql> create table example(
+    -> id int primary key,
+    -> age int,
+    -> CHECK (age>=18)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into example(id,age) values(1,10);
+ERROR 3819 (HY000): Check constraint 'example_chk_1' is violated.
+mysql> insert into example(id,age) values(1,18);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into example(id,age) values(1,11);
+ERROR 3819 (HY000): Check constraint 'example_chk_1' is violated.
+mysql> insert into example(id,age) values(2,11);
+ERROR 3819 (HY000): Check constraint 'example_chk_1' is violated.
+mysql> create table tabledef(
+    -> id int primary key,
+    -> order date datetime default CURRENT_TIMESTAMP
+    -> );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order date datetime default CURRENT_TIMESTAMP
+)' at line 3
+mysql> create table tabledef(
+    -> id int primary key,
+    -> order_date datetime default CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> SELECT * FROM TABLEDEF;
+Empty set (0.00 sec)
+
+mysql> insert into tabledef(id) values(1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from tabledef;
++----+---------------------+
+| id | order_date          |
++----+---------------------+
+|  1 | 2025-10-12 12:13:44 |
++----+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from tabledef;
++----+---------------------+
+| id | order_date          |
++----+---------------------+
+|  1 | 2025-10-12 12:13:44 |
++----+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from tabledef;
++----+---------------------+
+| id | order_date          |
++----+---------------------+
+|  1 | 2025-10-12 12:13:44 |
++----+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from tabledef;
++----+---------------------+
+| id | order_date          |
++----+---------------------+
+|  1 | 2025-10-12 12:13:44 |
++----+---------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from tabledef;
++----+---------------------+
+| id | order_date          |
++----+---------------------+
+|  1 | 2025-10-12 12:13:44 |
++----+---------------------+
+1 row in set (0.00 sec)
+
+mysql> create table test(
+    -> id int primary key,
+    -> age int,
+    -> status varchar(20) default 'active',
+    -> CHECK(age>=10)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO TEST(id,age)values(1,19);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO TEST(id,age)values(1,9);
+ERROR 3819 (HY000): Check constraint 'test_chk_1' is violated.
+mysql> select * from test;
++----+------+--------+
+| id | age  | status |
++----+------+--------+
+|  1 |   19 | active |
++----+------+--------+
+1 row in set (0.00 sec)
+
+mysql> select *from players;
++-----------+-------------+----------+
+| player_id | player_name | position |
++-----------+-------------+----------+
+|         1 | Neymar      | amf      |
+|         2 | Kroos       | cmf      |
+|         3 | Mbappe      | cf       |
++-----------+-------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select *from transfer;
++-------------+-----------+-------------------------+
+| transfer_id | player_id | fromtowhere             |
++-------------+-----------+-------------------------+
+|           1 |         1 | from Santos to Miami    |
+|           2 |         3 | from Psg to Real Madrid |
++-------------+-----------+-------------------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into transfer(transfer_id,player_id,fromtowhere) values(3,5,'from Psg to Real Madrid');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`iit14thbatch`.`transfer`, CONSTRAINT `fk_transfer_player` FOREIGN KEY (`player_id`) REFERENCES `players` (`player_id`))
+mysql> notee
